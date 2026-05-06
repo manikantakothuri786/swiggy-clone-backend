@@ -1,0 +1,34 @@
+const express = require("express");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const vendorRoutes = require("./routes/vendorRoutes");
+const firmRoutes = require("./routes/firmRoutes");
+const productRoutes = require("./routes/productRoutes");
+
+const app = express();
+
+const PORT = 4000;
+
+dotenv.config();
+
+console.log("MONGO_URI:", process.env.MONGO_URI);
+// console.log("Type:", typeof process.env.MONGO_URI);
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((error) => console.log(error));
+
+app.use(bodyParser.json());
+app.use("/vendor", vendorRoutes);
+app.use("/firm", firmRoutes);
+app.use("/product", productRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server started and running at ${PORT} port`);
+});
+
+app.use("/home", (req, res) => {
+  res.send("<h1>Welcome to Suby</h1>");
+});

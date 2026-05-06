@@ -1,0 +1,22 @@
+{
+  "name": "swiggy-clone",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon run index.js",
+    "start": "node index"
+  },
+  "keywords": [],
+  "author": "Manikanta Kothuri",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.4.0",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.3",
+    "multer": "^2.1.1",
+    "nodemon": "^3.1.14"
+  }
+}

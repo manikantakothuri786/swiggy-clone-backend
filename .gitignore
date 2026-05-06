@@ -1,0 +1,38 @@
+# Node modules (dependencies)
+node_modules/
+
+# Environment variables (secrets)
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor files
+.vscode/
+.idea/
+
+# Build / output folders
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/
+
+# Uploaded files (like Multer uploads)
+uploads/
+
+# Coverage reports
+coverage/
+
+# Optional: lock files (depends on team preference)
+package-lock.json
+yarn.lock
