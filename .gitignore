@@ -4,6 +4,8 @@ node_modules/
 # Environment variables (secrets)
 .env
 
+.gitignore
+
 # Logs
 logs/
 *.log
