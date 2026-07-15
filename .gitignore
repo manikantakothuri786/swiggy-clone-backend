@@ -30,7 +30,6 @@ tmp/
 temp/
 
 # Uploaded files (like Multer uploads)
-uploads/
 
 # Coverage reports
 coverage/
