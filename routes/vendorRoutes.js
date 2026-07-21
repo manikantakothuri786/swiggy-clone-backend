@@ -13,5 +13,5 @@ router.post("/register", vendorRegister);
 router.post("/login", vendorLogin);
 
 router.get("/all-vendors", getAllVendors);
-router.get("/single-vendor/:apple", getVendorById);
+router.get("/single-vendor/:vendorId", getVendorById);
 module.exports = router;
