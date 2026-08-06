@@ -4,7 +4,7 @@ const firmSchema = new mongoose.Schema({
   firmName: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
   },
   area: {
     type: String,
@@ -39,7 +39,10 @@ const firmSchema = new mongoose.Schema({
       ref: "Product",
     },
   ],
+  index: {},
 });
+
+firmSchema.index({ firmName: 1, area: 1 }, { unique: true });
 
 const Firm = mongoose.model("Firm", firmSchema);
 
