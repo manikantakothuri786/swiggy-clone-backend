@@ -44,7 +44,9 @@ const vendorLogin = async (req, res) => {
       expiresIn: "1h",
     });
     const vendorId = vendor._id;
-    res.status(201).json({ sucess: "Login successful", token, vendorId });
+    return res
+      .status(201)
+      .json({ sucess: "Login successful", token, vendorId });
     console.log(email, "This is token", token);
   } catch (error) {
     console.log(error);
@@ -64,15 +66,20 @@ const getAllVendors = async (req, res) => {
 
 const getVendorById = async (req, res) => {
   const vendorId = req.params.vendorId;
-
+  let vendorFirmId;
   try {
     const vendor = await Vendor.findById(vendorId).populate("firm");
+    //console.log(vendor, "vendor Found");
     if (!vendor) {
       return res.status(404).json({ error: "Vendor not found" });
     }
-    const vendorFirmId = vendor.firm[0]._id;
+    if (vendor.firm.length == 0) {
+      vendorFirmId = 0;
+      return res.status(400).json({ message: "No Firms added", vendorFirmId });
+    }
+    vendorFirmId = vendor.firm[0]._id;
     res.status(200).json({ vendor, vendorFirmId });
-    console.log(vendorFirmId);
+    //console.log(vendorFirmId, "Try block is working");
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Internl Server error" });

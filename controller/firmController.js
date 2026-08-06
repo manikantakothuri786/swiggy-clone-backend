@@ -20,7 +20,7 @@ const addFirm = async (req, res) => {
 
     const vendor = await Vendor.findById(req.vendorId);
     if (!vendor) res.status(404).json({ message: "vendor not found" });
-    if (vendor.firm.length > 1) {
+    if (vendor.firm.length >= 1) {
       return res
         .status(400)
         .json({ message: "Vendor can only have, 🍴 1 firm!" });
