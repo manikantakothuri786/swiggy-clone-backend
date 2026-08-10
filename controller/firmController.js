@@ -38,10 +38,13 @@ const addFirm = async (req, res) => {
 
     const savedFirm = await firm.save();
     const firmId = savedFirm._id;
+    const name = savedFirm.firmName;
     vendor.firm.push(savedFirm);
     await vendor.save();
 
-    res.status(200).json({ message: "Firm added successfully", firmId });
+    return res
+      .status(200)
+      .json({ message: "Firm added successfully", firmId, firmName: name });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server error" });
