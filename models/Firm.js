@@ -25,7 +25,8 @@ const firmSchema = new mongoose.Schema({
     type: String,
   },
   image: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Image",
   },
   vendor: [
     {
@@ -39,7 +40,6 @@ const firmSchema = new mongoose.Schema({
       ref: "Product",
     },
   ],
-  index: {},
 });
 
 firmSchema.index({ firmName: 1, area: 1 }, { unique: true });

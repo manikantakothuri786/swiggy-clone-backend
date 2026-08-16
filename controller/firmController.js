@@ -1,22 +1,34 @@
 const Firm = require("../models/Firm");
 const Vendor = require("../models/Vendor");
+const Image = require("../models/Image");
 const multer = require("multer");
-const path = require("path");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const addFirm = async (req, res) => {
   try {
     const { firmName, area, category, region, offer } = req.body;
-    const image = req.file ? req.file.filename : undefined;
+    // const image = req.file ? req.file.filename : undefined;
+    let imageId;
+    if (req.file) {
+      const image = await Image.create({
+        filename: req.file.originalname,
+        contentType: req.file.mimetype,
+        data: req.file.buffer,
+      });
+
+      imageId = image._id;
+    }
 
     const vendor = await Vendor.findById(req.vendorId);
     if (!vendor) res.status(404).json({ message: "vendor not found" });
@@ -32,7 +44,7 @@ const addFirm = async (req, res) => {
       category,
       region,
       offer,
-      image,
+      image: imageId,
       vendor: vendor._id,
     });
 

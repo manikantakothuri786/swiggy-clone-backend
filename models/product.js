@@ -19,7 +19,8 @@ const productSchema = new mongoose.Schema({
     ],
   },
   image: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Image",
   },
   bestSller: {
     type: Boolean,

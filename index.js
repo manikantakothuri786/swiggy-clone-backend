@@ -8,6 +8,7 @@ const productRoutes = require("./routes/productRoutes");
 const path = require("path");
 const cors = require("cors");
 const fs = require("fs");
+const imageRoutes = require("./routes/imageRoutes");
 
 const app = express();
 
@@ -33,21 +34,22 @@ app.use("/product", productRoutes);
 
 // app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-const uploadsPath = path.join(process.cwd(), "uploads");
+app.use("/images", imageRoutes);
+// const uploadsPath = path.join(process.cwd(), "uploads");
 
-console.log("UPLOADS PATH:", uploadsPath);
-console.log("UPLOADS EXISTS:", fs.existsSync(uploadsPath));
+// console.log("UPLOADS PATH:", uploadsPath);
+// console.log("UPLOADS EXISTS:", fs.existsSync(uploadsPath));
 
-if (fs.existsSync(uploadsPath)) {
-  console.log("UPLOAD FILES:", fs.readdirSync(uploadsPath));
-}
+// if (fs.existsSync(uploadsPath)) {
+//   console.log("UPLOAD FILES:", fs.readdirSync(uploadsPath));
+// }
 
-app.use("/uploads", express.static(uploadsPath));
-
-app.listen(PORT, () => {
-  console.log(`Server started and running at ${PORT} port`);
-});
+// app.use("/uploads", express.static(uploadsPath));
 
 app.use("/", (req, res) => {
   res.send("<h1>Welcome to Suby</h1>");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server started and running at ${PORT} port`);
 });

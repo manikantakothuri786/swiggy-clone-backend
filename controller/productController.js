@@ -1,23 +1,36 @@
 const Product = require("../models/product");
 const multer = require("multer");
 const Firm = require("../models/Firm");
-const path = require("path");
+const Image = require("../models/Image");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const addProduct = async (req, res) => {
   try {
     const { productName, price, category, bestSeller, description } = req.body;
 
-    const image = req.file ? req.file.filename : undefined;
+    // const image = req.file ? req.file.filename : undefined;
+    let imageId;
+
+    if (req.file) {
+      const image = await Image.create({
+        filename: req.file.originalname,
+        contentType: req.file.mimetype,
+        data: req.file.buffer,
+      });
+
+      imageId = image._id;
+    }
 
     const firmId = req.params.firmId;
 
@@ -31,7 +44,7 @@ const addProduct = async (req, res) => {
       category,
       bestSeller,
       description,
-      image,
+      image: imageId,
       firm: firm._id,
     });
 
