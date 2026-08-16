@@ -22,6 +22,12 @@ const addProduct = async (req, res) => {
     // const image = req.file ? req.file.filename : undefined;
     let imageId;
 
+    const firmId = req.params.firmId;
+
+    const firm = await Firm.findById(firmId);
+
+    if (!firm) return res.status(404).json({ error: "Firm not found" });
+
     if (req.file) {
       const image = await Image.create({
         filename: req.file.originalname,
@@ -32,12 +38,6 @@ const addProduct = async (req, res) => {
       imageId = image._id;
     }
 
-    const firmId = req.params.firmId;
-
-    const firm = await Firm.findById(firmId);
-
-    if (!firm) return res.status(404).json({ error: "Firm not found" });
-
     const product = new Product({
       productName,
       price,
@@ -47,17 +47,14 @@ const addProduct = async (req, res) => {
       image: imageId,
       firm: firm._id,
     });
-
     const savedProduct = await product.save();
-    firm.products.push(savedProduct);
+    firm.products.push(savedProduct._id);
     await firm.save();
 
-    return res
-      .status(200)
-      .json(
-        { message: "product created successfully", savedProduct },
-        savedProduct,
-      );
+    return res.status(200).json({
+      message: "product created successfully",
+      savedProduct,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server error" });
